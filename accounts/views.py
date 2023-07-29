@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserPasswordChangeSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserPasswordChangeSerializer, SendPasswordResetEmailSerializer
 
 # Generate Token
 
@@ -83,3 +83,14 @@ class UserPasswordChangeView(APIView):
                 'error': str(e),
                 'message': 'Something went wrong!'
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SendResetPasswordEmailView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            serializer = SendPasswordResetEmailSerializer(data=data)
+            if serializer.is_valid(raise_exception=True):
+                return ({'message': 'Password Reset Email Sent. Please check your email.'})
+        except Exception as e:
+            return Response({'message': 'Something went wrong!'}, status=status.HTTP_400_BAD_REQUEST)
