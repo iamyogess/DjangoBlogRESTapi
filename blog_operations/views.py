@@ -21,9 +21,11 @@ class ShowBlogView(APIView):
 
 
 class AddBlogView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
             data = request.data
+            # author = request.user
             serializer = AddBlogSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
@@ -37,7 +39,7 @@ class AddBlogView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ShowBlogDetailsView(APIView):  # show single blog
+class ShowBlogDetailsView(APIView):# show single blog
     def get(self, request, pk):
         try:
             get_single_blog = BlogModel.objects.get(id=pk)

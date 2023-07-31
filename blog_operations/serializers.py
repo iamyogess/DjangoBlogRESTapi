@@ -5,13 +5,13 @@ from .models import BlogModel
 class ShowBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogModel
-        fields = ['title', 'blog_content']
+        fields = ['title', 'blog_image', 'blog_content', 'author']
 
 
 class AddBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogModel
-        fields = ['title', 'blog_content']
+        fields = '__all__'
 
 
 class ShowBlogDetailsSerializer(serializers.ModelSerializer):
